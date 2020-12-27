@@ -11,8 +11,7 @@ import org.json.JSONObject;
 public class JSONDecode {
 
     /**
-    *
-    * @return - the JSONObject required for parsing in the other classes
+     * @return - the JSONObject required for parsing in the other classes
      */
     public static JSONObject getJsonFromHttp(String URL) throws Exception {
         URL obj = new URL(URL);
