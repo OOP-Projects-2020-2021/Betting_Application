@@ -5,31 +5,23 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import sqlserver.SQLConnection;
-import user.User;
-
-import java.sql.*;
-import java.util.ArrayList;
 
 public class Main extends Application {
 
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/SignIn.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/MainMenu.fxml"));
         primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 1000, 500));
+        primaryStage.setScene(new Scene(root, 1200, 600));
         primaryStage.show();
     }
 
 
-    public static void main(String[] args){
-
-
+    public static void main(String[] args) {
         launch(args);
 
-
-       /* Scraping scraping = new Scraping();
+        /* Scraping scraping = new Scraping();
 
         scraping.getLeaguesFromJson();
         ArrayList<League> leagues = scraping.getLeagues();

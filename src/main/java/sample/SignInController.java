@@ -1,20 +1,23 @@
 package sample;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
-import sqlserver.SQLConnection;
+import user.Bet;
 import user.User;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
-public class SignInController {
-
-    @FXML private TextField _username;
-    @FXML private TextField _password;
+public class SignInController extends SceneController {
 
     @FXML
-    private void SignIn() {
-        SQLConnection sqlConnection = new SQLConnection();
+    private TextField _username;
+    @FXML
+    private TextField _password;
+
+    @FXML
+    private void SignIn(ActionEvent actionEvent) {
         ArrayList<User> users = sqlConnection.getUsers();
 
         User current = null;
@@ -31,6 +34,17 @@ public class SignInController {
             System.out.println("The combination username-password is incorrect!");
         } else {
             System.out.println("Congratulations! you've just signed in" + current.getName());
+            currentUser = current;
+            try {
+                changeScene(actionEvent, "/BetMenu.fxml");
+            } catch (IOException ioException) {
+                System.out.println("IO exception while trying to changeScene");
+            }
         }
+    }
+
+    @FXML
+    private void goTo(ActionEvent event) throws IOException {
+        changeScene(event, "/SignUp.fxml");
     }
 }

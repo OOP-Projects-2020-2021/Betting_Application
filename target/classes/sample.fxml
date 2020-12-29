@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="768.0" prefWidth="1550.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.SampleController">
+<AnchorPane fx:id="anchorPane" prefHeight="825.0" prefWidth="1550.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.SampleController">
    <children>
-      <HBox fx:id="hbox" layoutX="-4.0" layoutY="-6.0" prefHeight="774.0" prefWidth="1558.0">
-         <children>
-            <ScrollPane fx:id="scroll" prefHeight="774.0" prefWidth="286.0">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="791.0" prefWidth="287.0" />
-              </content>
-            </ScrollPane>
-            <VBox fx:id="vbox" prefHeight="819.0" prefWidth="1257.0" />
-         </children>
-      </HBox>
+      <ListView fx:id="listView" layoutY="1.0" prefHeight="811.0" prefWidth="331.0" style="-fx-background-color: #e6ac55; -fx-border-radius: 100; -fx-fixed-cell-size: 50;">
+         <effect>
+            <DropShadow />
+         </effect>
+      </ListView>
+      <ListView fx:id="listViewMatches" layoutX="333.0" layoutY="-2.0" prefHeight="813.0" prefWidth="1216.0" style="-fx-background-color: gray; -fx-border-radius: 100; -fx-fixed-cell-size: 50;">
+         <effect>
+            <DropShadow />
+         </effect>
+      </ListView>
    </children>
 </AnchorPane>

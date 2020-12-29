@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="anchorPane" prefHeight="825.0" prefWidth="1550.0" xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.BetMenuController">
+    <ListView fx:id="listView" layoutY="1.0" prefHeight="811.0" prefWidth="331.0"
+              style="-fx-background-color: #e6ac55; -fx-border-radius: 100; -fx-fixed-cell-size: 50;">
+        <effect>
+            <DropShadow/>
+        </effect>
+    </ListView>
+    <ListView fx:id="listViewMatches" layoutX="333.0" layoutY="-2.0" prefHeight="813.0" prefWidth="1216.0"
+              style="-fx-background-color: gray; -fx-border-radius: 100; -fx-fixed-cell-size: 50;">
+        <effect>
+            <DropShadow/>
+        </effect>
+    </ListView>
+    <Button layoutX="1458.0" layoutY="27.0" mnemonicParsing="false" onAction="#goBack" text="Back"/>
+</AnchorPane>
