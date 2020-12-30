@@ -50,4 +50,13 @@ public class MainMenuController extends SceneController {
             System.out.println("The scene could not be changed! @goToDeposit");
         }
     }
+
+    @FXML
+    private void signOut(ActionEvent event) {
+        try {
+            changeScene(event, "/SignIn.fxml");
+        } catch (IOException ioException) {
+            System.out.println("The scene could not be changed! @goToDeposit");
+        }
+    }
 }

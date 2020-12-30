@@ -2,6 +2,7 @@ package sample;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
@@ -33,8 +34,13 @@ public class AdminMenuController extends SceneController {
 
         for (User user : sqlConnection.getUsers()) {
             Button userBetHistoryButton = new Button("See betting history");
-            userBetHistoryButton.setLayoutX(12);
-            userBetHistoryButton.setLayoutY(50);
+            userBetHistoryButton.setLayoutX(500);
+            userBetHistoryButton.setLayoutY(0);
+            userBetHistoryButton.setStyle(
+                    "-fx-background-radius: 20;" +
+                            "-fx-background-color: #6e5210;" +
+                            "-fx-font: 24 arial;"
+            );
             userBetHistoryButton.setOnAction(e ->
             {
                 controlledUser = user;
@@ -46,8 +52,13 @@ public class AdminMenuController extends SceneController {
             });
 
             Button userPersonalDataButton = new Button("See personal data");
-            userPersonalDataButton.setLayoutY(12);
-            userPersonalDataButton.setLayoutX(300);
+            userPersonalDataButton.setLayoutY(0);
+            userPersonalDataButton.setLayoutX(780);
+            userPersonalDataButton.setStyle(
+                    "-fx-background-radius: 20;" +
+                            "-fx-background-color: #10556e;" +
+                            "-fx-font: 24 arial;"
+            );
             userPersonalDataButton.setOnAction(e -> {
                 controlledUser = user;
                 try {
@@ -59,8 +70,11 @@ public class AdminMenuController extends SceneController {
 
             Pane pane = new Pane();
             Text id = new Text(user.getId() + " - " + user.getUsername());
-            id.setLayoutY(18);
-            id.setLayoutX(12);
+            id.setLayoutY(25);
+            id.setLayoutX(10);
+            id.setStyle(
+                    "-fx-font: 24 arial;"
+            );
 
             pane.getChildren().add(userBetHistoryButton);
             pane.getChildren().add(userPersonalDataButton);
@@ -70,5 +84,15 @@ public class AdminMenuController extends SceneController {
         }
 
         listView.setItems(observableList);
+    }
+
+    @FXML
+    private void goBack(ActionEvent actionEvent) {
+        try {
+            changeScene(actionEvent, "/SignIn.fxml");
+        } catch (IOException ioException) {
+            System.out.println("The page could not be changed! @goBackFromAdminMenu");
+            ioException.printStackTrace();
+        }
     }
 }

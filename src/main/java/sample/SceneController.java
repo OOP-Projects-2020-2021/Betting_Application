@@ -42,4 +42,8 @@ public class SceneController {
         } else
             stage.getScene().setRoot(parent);
     }
+
+    public void exitApp() {
+        System.exit(0);
+    }
 }

@@ -7,12 +7,15 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.skin.LabeledSkinBase;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import user.*;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class BetMenuController extends SceneController {
@@ -31,9 +34,16 @@ public class BetMenuController extends SceneController {
     private AnchorPane anchorPane;
     @FXML
     private Button placeBetButton;
+    @FXML
+    private Label balance;
+    @FXML
+    private TextField betAmmount;
+    @FXML
+    private Label betLabel;
 
     public void initialize() {
-
+        balance.setText("Balance: " + currentUser.getBalance());
+        betAmmount.setText("0.0");
         ArrayList<League> leagues = currentUser.getLeagues();
 
         constructScene(leagues);
@@ -54,13 +64,25 @@ public class BetMenuController extends SceneController {
 
     }
 
+    //needed to convert to 2 decimals
+    public static float round(float d, int decimalPlace) {
+        BigDecimal bd = new BigDecimal(Float.toString(d));
+        bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
+        return bd.floatValue();
+    }
+
     @FXML
     private void placeBet(ActionEvent actionEvent) {
-        if (!currentOdds.isEmpty()) {
-            Bet currBet = new Bet(currentOdds, 1, currentBetTotalOdd, new java.sql.Date(System.currentTimeMillis()), false);
+        float betAmmountFloat = Float.parseFloat(betAmmount.getText());
+        if (betAmmountFloat > currentUser.getBalance()) {
+            betLabel.setText("You do not have enough money!");
+        } else if (betAmmountFloat > 0 && !currentOdds.isEmpty()) {
+            Bet currBet = new Bet(currentOdds, betAmmountFloat, round(currentBetTotalOdd, 2), new java.sql.Date(System.currentTimeMillis()), false);
 
             currentUser.getBets().add(currBet);
             sqlConnection.insertBet(currBet, currentUser);
+            currentUser.setBalance(currentUser.getBalance() - betAmmountFloat);
+            sqlConnection.updateBalance(currentUser);
 
             try {
                 changeScene(actionEvent, "/MainMenu.fxml");
@@ -125,21 +147,38 @@ public class BetMenuController extends SceneController {
 
         Pane pane = new Pane();
         Text teams = new Text(odd.getTeam1() + " - " + odd.getTeam2());
-        teams.setLayoutY(18);
-        teams.setLayoutX(0);
+        teams.setLayoutY(25);
+        teams.setStyle(
+                "-fx-font: 24 arial;"
+        );
 
-        Label betAndOdd = new Label(
-                betLabel.getText() + " : " + odd.getOdd());
-        betAndOdd.setLayoutY(12);
-        betAndOdd.setLayoutX(200);
+        Label betL = new Label(betLabel.getText());
+        Label oddL = new Label(String.valueOf(odd.getOdd()));
 
+        betL.setLayoutY(5);
+        betL.setLayoutX(500);
+        betL.setStyle(
+                "-fx-font: 24 arial;"
+        );
+
+        oddL.setLayoutY(5);
+        oddL.setLayoutX(900);
+        oddL.setStyle(
+                "-fx-font: 25 arial;" +
+                        "-fx-background-color: #1e9e71;"
+        );
+
+        pane.setStyle(
+                "-fx-background-color: #948f8a;" +
+                        "-fx-background-radius: 0;"
+        );
         pane.getChildren().add(teams);
-        pane.getChildren().add(betAndOdd);
+        pane.getChildren().add(betL);
+        pane.getChildren().add(oddL);
 
         currentBetPanes.add(pane);
         currentOdds.add(odd);
         currentBetTotalOdd *= odd.getOdd();
-        System.out.println(currentBetTotalOdd);
     }
 
     @FXML
@@ -172,30 +211,46 @@ public class BetMenuController extends SceneController {
                 "-fx-font: 24 arial;"
         );
 
-        Button bet3 = new Button(String.valueOf(m.getOdd(2).getOdd()));
+        Button bet3 = new Button(String.valueOf(m.getOdd(1).getOdd()));
         Button bet1 = new Button(String.valueOf(m.getOdd(0).getOdd()));
-        Button bet2 = new Button(String.valueOf(m.getOdd(1).getOdd()));
+        Button bet2 = new Button(String.valueOf(m.getOdd(2).getOdd()));
 
 
         Label odd1 = new Label("1");
-        odd1.setLayoutY(0);
-        odd1.setLayoutX(715);
+        odd1.setLayoutY(10);
+        odd1.setLayoutX(680);
         Label oddX = new Label("X");
-        oddX.setLayoutY(0);
-        oddX.setLayoutX(815);
+        oddX.setLayoutY(10);
+        oddX.setLayoutX(810);
         Label odd2 = new Label("2");
-        odd2.setLayoutY(0);
-        odd2.setLayoutX(915);
+        odd2.setLayoutY(10);
+        odd2.setLayoutX(940);
+
+        odd1.setStyle(
+                "-fx-font: 24 arial;"
+        );
+        odd2.setStyle(
+                "-fx-font: 24 arial;"
+        );
+        oddX.setStyle(
+                "-fx-font: 24 arial;"
+        );
 
 
         bet1.setLayoutX(700);
-        bet1.setLayoutY(15);
+        bet1.setLayoutY(5);
+        bet1.setPrefHeight(30);
+        bet1.setPrefWidth(100);
 
-        bet2.setLayoutX(800);
-        bet2.setLayoutY(15);
+        bet2.setLayoutX(830);
+        bet2.setLayoutY(5);
+        bet2.setPrefHeight(30);
+        bet2.setPrefWidth(100);
 
-        bet3.setLayoutX(900);
-        bet3.setLayoutY(15);
+        bet3.setLayoutX(960);
+        bet3.setLayoutY(5);
+        bet3.setPrefHeight(30);
+        bet3.setPrefWidth(100);
 
         bet1.setOnAction(e -> {
             bet1.setStyle(
@@ -234,7 +289,7 @@ public class BetMenuController extends SceneController {
             );
         });
         bet2.setOnAction(e -> {
-            setBet(m, 1, odd1);
+            setBet(m, 1, oddX);
             if (bet2.getStyle().contains(unpickedColor))
                 bet2.setStyle(
                         "-fx-background-color: " + pickedColor + ";"
@@ -251,7 +306,7 @@ public class BetMenuController extends SceneController {
             );
         });
         bet3.setOnAction(e -> {
-            setBet(m, 2, odd1);
+            setBet(m, 2, odd2);
             if (bet3.getStyle().contains(unpickedColor))
                 bet3.setStyle(
                         "-fx-background-color: " + pickedColor + ";"
@@ -270,7 +325,7 @@ public class BetMenuController extends SceneController {
 
 
         currentPane.setStyle(
-                "-fx-background-color: #03fce3;" +
+                "-fx-background-color: #948f8a;" +
                         "-fx-background-radius: 0;"
         );
         currentPane.setPrefHeight(listView.getFixedCellSize());
@@ -288,7 +343,10 @@ public class BetMenuController extends SceneController {
     @FXML
     private Button constructButton(ArrayList<League> leagues, League l) {
         Button button = new Button(l.getName());
-        button.setPrefWidth(320);
+        button.setPrefWidth(340);
+        button.setStyle(
+                "-fx-background-color: #16b55d;"
+        );
         button.setOnAction(actionEvent -> {
             listViewMatches.setItems(allMatches.get(leagues.indexOf(l)));
             placeBetButton.setVisible(false);

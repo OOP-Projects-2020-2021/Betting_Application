@@ -9,11 +9,27 @@ import java.io.IOException;
 public class AdminPersonalDataController extends SceneController {
 
     @FXML
-    private Label CNP;
+    private Label _username;
+
+    @FXML
+    private Label _name;
+
+    @FXML
+    private Label _CNP;
+
+    @FXML
+    private Label _balance;
+
+    @FXML
+    private Label _ID;
 
     @FXML
     private void initialize() {
-        this.CNP.setText(controlledUser.getCNP());
+        _username.setText(controlledUser.getUsername());
+        _name.setText(controlledUser.getName());
+        _CNP.setText(controlledUser.getCNP());
+        _balance.setText(String.valueOf(controlledUser.getBalance()));
+        _ID.setText(String.valueOf(controlledUser.getId()));
     }
 
     @FXML

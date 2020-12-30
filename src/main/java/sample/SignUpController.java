@@ -8,6 +8,7 @@ import javafx.scene.control.TextField;
 
 import javafx.event.ActionEvent;
 
+import javax.management.ValueExp;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -81,9 +82,10 @@ public class SignUpController extends SceneController {
         } else {
             User u = new User(username, password, CNP, name, 0.0f, false, scraping.getLeagues(), null, users.size());
             sqlConnection.insertUser(u);
-            currentUser = u;
+            sqlConnection.setUsers();
+            //corrected because no history was fetched #gotoSignIn currentUser = u;
             try {
-                changeScene(actionEvent, "/MainMenu.fxml");
+                changeScene(actionEvent, "/SignIn.fxml");
             } catch (IOException ioException) {
                 System.out.println("IO exception while trying to changeScene");
             }

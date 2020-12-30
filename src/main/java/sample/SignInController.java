@@ -2,6 +2,7 @@ package sample;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import user.Bet;
 import user.User;
@@ -15,9 +16,15 @@ public class SignInController extends SceneController {
     private TextField _username;
     @FXML
     private TextField _password;
+    @FXML
+    private Label _usernameError;
+    @FXML
+    private Label _passwordError;
 
     @FXML
     private void SignIn(ActionEvent actionEvent) {
+        _usernameError.setText("");
+        _passwordError.setText("");
         ArrayList<User> users = sqlConnection.getUsers();
 
         User current = null;
@@ -29,11 +36,10 @@ public class SignInController extends SceneController {
         }
 
         if (current == null) {
-            System.out.println("The username does not exist!");
+            _usernameError.setText("The username does not exist");
         } else if (!current.getPassword().equals(_password.getText())) {
-            System.out.println("The combination username-password is incorrect!");
+            _passwordError.setText("The combination username-password is incorrect!");
         } else {
-            System.out.println("Congratulations! you've just signed in" + current.getName());
             currentUser = current;
             if (!currentUser.isAdmin()) {
                 try {
@@ -52,7 +58,7 @@ public class SignInController extends SceneController {
     }
 
     @FXML
-    private void goTo(ActionEvent event) throws IOException {
+    private void goToSignIn(ActionEvent event) throws IOException {
         changeScene(event, "/SignUp.fxml");
     }
 }

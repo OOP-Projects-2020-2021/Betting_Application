@@ -26,11 +26,12 @@ public class Scraping {
 
         for (int iter = 0; iter < dataLeagues.length(); iter++) {
             String key = dataLeagues.getJSONObject(iter).getString("key");
-            if (key.contains("soccer_epl")/* ||  key.contains("soccer_france_ligue_one") || (key.contains("soccer_germany_bundesliga") && !key.equals("soccer_germany_bundesliga2")) ||
-                    key.contains("soccer_italy_serie_a") || key.contains("soccer_spain_la_liga")*/) {
+            if (key.contains("soccer_epl") || key.contains("soccer_france_ligue_one") || (key.contains("soccer_germany_bundesliga") && !key.equals("soccer_germany_bundesliga2")) ||
+                    key.contains("soccer_italy_serie_a") || key.contains("soccer_spain_la_liga") ||
+                    key.contains("soccer_uefa_champs_league") || key.contains("soccer_uefa_europa_league") ||
+                    key.contains("soccer_turkey_super_league") || key.contains("soccer_spain_segunda_division")) {
                 String group = dataLeagues.getJSONObject(iter).getString("group");
                 String name = dataLeagues.getJSONObject(iter).getString("details");
-
                 League curr = new League(name, group);
 
                 JSONObject jsonLeagueCurrent = null;

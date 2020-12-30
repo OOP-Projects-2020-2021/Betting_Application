@@ -27,12 +27,33 @@ public class AdminBetHistoryController extends SceneController {
     private ListView<Pane> listViewOdds;
 
     @FXML
+    private Label totalOdd;
+
+    @FXML
+    private Label date;
+
+    @FXML
+    private Label _ammount;
+
+    @FXML
     private void initialize() {
+        totalOdd.setText("");
+        date.setText("");
+        _ammount.setText("");
         for (Bet bet : controlledUser.getBets()) {
-            Button betButton = new Button(String.valueOf(bet.getTotalOdd()));
-            betButton.setLayoutX(10);
-            betButton.setLayoutY(12);
-            betButton.setOnAction(e -> listViewOdds.setItems(allBetsAsLists.get(controlledUser.getBets().indexOf(bet))));
+            Button betButton = new Button(bet.getDate().toString() + "          " + bet.getTotalOdd());
+            betButton.setLayoutX(0);
+            betButton.setLayoutY(0);
+            betButton.setStyle(
+                    "-fx-background-color:  #16b55d;" +
+                            "-fx-font: 15 arial;"
+            );
+            betButton.setOnAction(e -> {
+                listViewOdds.setItems(allBetsAsLists.get(controlledUser.getBets().indexOf(bet)));
+                totalOdd.setText(String.valueOf(bet.getTotalOdd()));
+                date.setText(bet.getDate().toString());
+                _ammount.setText(String.valueOf(bet.getAmountBet()));
+            });
 
             Pane pane = new Pane();
             pane.getChildren().add(betButton);
@@ -43,8 +64,6 @@ public class AdminBetHistoryController extends SceneController {
 
         if (!allBets.isEmpty())
             listView.setItems(allBets);
-        if (!allBetsAsLists.isEmpty())
-            listViewOdds.setItems(allBetsAsLists.get(0));
 
     }
 
@@ -54,15 +73,34 @@ public class AdminBetHistoryController extends SceneController {
         for (Odd odd : bet.getAllOdds()) {
             Pane auxPane = new Pane();
             Text teams = new Text(odd.getTeam1() + " - " + odd.getTeam2());
-            teams.setLayoutY(12);
-            teams.setLayoutX(10);
+            teams.setLayoutY(25);
+            teams.setStyle(
+                    "-fx-font: 24 arial;"
+            );
 
-            Label betAndOdd = new Label(odd.getOddType() + " " + odd.getOdd());
-            betAndOdd.setLayoutY(12);
-            betAndOdd.setLayoutX(200);
+            Label betL = new Label(odd.getOddType());
+            Label oddL = new Label(String.valueOf(odd.getOdd()));
 
+            betL.setLayoutY(5);
+            betL.setLayoutX(500);
+            betL.setStyle(
+                    "-fx-font: 24 arial;"
+            );
+
+            oddL.setLayoutY(5);
+            oddL.setLayoutX(900);
+            oddL.setStyle(
+                    "-fx-font: 25 arial;" +
+                            "-fx-background-color: #1e9e71;"
+            );
+
+            auxPane.setStyle(
+                    "-fx-background-color: #948f8a;" +
+                            "-fx-background-radius: 0;"
+            );
             auxPane.getChildren().add(teams);
-            auxPane.getChildren().add(betAndOdd);
+            auxPane.getChildren().add(betL);
+            auxPane.getChildren().add(oddL);
             currObsList.add(auxPane);
         }
 

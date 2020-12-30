@@ -6,7 +6,6 @@ import user.Odd;
 import user.User;
 
 import java.sql.*;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class SQLConnection {
@@ -84,6 +83,28 @@ public class SQLConnection {
         return id;
     }
 
+    public void updateBalance(User user) {
+        Connection sqlConnection = null;
+        try {
+            sqlConnection = DriverManager.getConnection(DATABASE_URL, DATABASE_USERNAME, DATABASE_PASSWORD);
+
+            PreparedStatement stmt = sqlConnection.prepareStatement("UPDATE UserX SET balance = ? WHERE id = ?");
+            stmt.setFloat(1, user.getBalance());
+            stmt.setInt(2, user.getId());
+            stmt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (sqlConnection != null && !sqlConnection.isClosed()) {
+                    sqlConnection.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
 
     public void insertBet(Bet bet, User user) {
         Connection sqlConnection = null;
