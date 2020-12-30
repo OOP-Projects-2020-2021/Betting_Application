@@ -11,9 +11,9 @@ import java.util.ArrayList;
 
 public class SQLConnection {
     private ArrayList<User> users;
-    String DATABASE_URL = "jdbc:sqlserver://localhost:1433;databaseName=BettingAppDB;";
-    String DATABASE_USERNAME = "alex";
-    String DATABASE_PASSWORD = "1234567";
+    static String DATABASE_URL = "jdbc:sqlserver://localhost:1433;databaseName=BettingAppDB;";
+    static String DATABASE_USERNAME = "alex";
+    static String DATABASE_PASSWORD = "1234567";
 
     public SQLConnection() {
         this.setUsers();
@@ -127,11 +127,12 @@ public class SQLConnection {
                 int oddId = getOddId(sqlConnection) + 1;
                 if (oddId == 0)
                     oddId++;
-                PreparedStatement stmtOdd = sqlConnection.prepareStatement("insert into Odd values (?, ?, ?, ?)");
+                PreparedStatement stmtOdd = sqlConnection.prepareStatement("insert into Odd values (?, ?, ?, ?, ?)");
                 stmtOdd.setInt(1, oddId);
                 stmtOdd.setString(2, o.getTeam1());
                 stmtOdd.setString(3, o.getTeam2());
                 stmtOdd.setFloat(4, o.getOdd());
+                stmtOdd.setString(5, o.getOddType());
                 stmtOdd.executeUpdate();
 
                 int mapId = getMapId(sqlConnection) + 1;
@@ -233,7 +234,7 @@ public class SQLConnection {
     }
 
     private void setOddsMapped(Connection conn, int betId, ArrayList<Odd> odds) throws SQLException {
-        String oddStmtString = "SELECT team1, team2, odd FROM Odd WHERE id = " + betId;
+        String oddStmtString = "SELECT team1, team2, odd, oddType FROM Odd WHERE id = " + betId;
         Statement oddStmt = conn.createStatement();
         ResultSet oddStatement = oddStmt.executeQuery(oddStmtString);
 
@@ -241,9 +242,22 @@ public class SQLConnection {
             float oddValue = oddStatement.getFloat("odd");
             String team1 = oddStatement.getString("team1");
             String team2 = oddStatement.getString("team2");
-            Odd currOdd = new Odd(oddValue, team1, team2);
+            String oddType = oddStatement.getString("oddType");
+            Odd currOdd = new Odd(oddValue, team1, team2, oddType);
 
             odds.add(currOdd);
         }
+    }
+
+    public static String getDatabaseUrl() {
+        return DATABASE_URL;
+    }
+
+    public static String getDatabaseUsername() {
+        return DATABASE_USERNAME;
+    }
+
+    public static String getDatabasePassword() {
+        return DATABASE_PASSWORD;
     }
 }

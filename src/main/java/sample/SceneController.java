@@ -18,11 +18,13 @@ public class SceneController {
     public static Scraping scraping = null;
     public static SQLConnection sqlConnection = null;
     public static User currentUser = null;
+    public static User controlledUser = null;
     public static ActionEvent actionEvent;
+    public static Stage stage = null;
+    public static Scene scene = null;
 
     public SceneController() {
-        if(scraping == null)
-        {
+        if (scraping == null) {
             scraping = new Scraping();
             scraping.getLeaguesFromJson();
             sqlConnection = new SQLConnection();
@@ -31,9 +33,13 @@ public class SceneController {
 
     public void changeScene(ActionEvent actionEvent, String fxmlFilePath) throws IOException {
         Parent parent = FXMLLoader.load(getClass().getResource(fxmlFilePath));
-        Scene scene = new Scene(parent);
-        Stage window = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        window.setScene(scene);
-        window.show();
+        if (scene == null) {
+            scene = new Scene(parent);
+            stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.setFullScreen(true);
+            stage.show();
+        } else
+            stage.getScene().setRoot(parent);
     }
 }

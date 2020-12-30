@@ -29,55 +29,57 @@ public class BetMenuController extends SceneController {
     private ListView<Pane> listViewMatches;
     @FXML
     private AnchorPane anchorPane;
+    @FXML
+    private Button placeBetButton;
 
     public void initialize() {
-        currentUser = new User("a", "a", "a", "a", 0.0f, true, scraping.getLeagues(), new ArrayList<>(), 1);
 
         ArrayList<League> leagues = currentUser.getLeagues();
 
         constructScene(leagues);
 
         ///
-        Button empty = new Button();
-        empty.setVisible(false);
-        games.add(empty);
-        games.add(empty);
-        games.add(empty);
-        games.add(empty);
-        games.add(empty);
-        games.add(empty);
-        ///
-
-        ///
-        Button placeBetButton = new Button("Place Bet");
-        placeBetButton.setLayoutX(700);
-        placeBetButton.setLayoutY(400);
+        placeBetButton = new Button("Place Bet");
+        placeBetButton.setLayoutX(632);
+        placeBetButton.setLayoutY(820);
+        placeBetButton.setPrefWidth(571);
+        placeBetButton.setPrefHeight(31);
         placeBetButton.setVisible(false);
-        placeBetButton.setOnAction(e -> placeBet());
+        placeBetButton.setOnAction(this::placeBet);
         anchorPane.getChildren().add(placeBetButton);
+        anchorPane.getChildren().add(constructBetButton());
         ///
 
-        games.add(constructBetButton(placeBetButton));
         listView.setItems(games);
 
     }
 
     @FXML
-    private void placeBet() {
+    private void placeBet(ActionEvent actionEvent) {
         if (!currentOdds.isEmpty()) {
             Bet currBet = new Bet(currentOdds, 1, currentBetTotalOdd, new java.sql.Date(System.currentTimeMillis()), false);
 
             currentUser.getBets().add(currBet);
             sqlConnection.insertBet(currBet, currentUser);
+
+            try {
+                changeScene(actionEvent, "/MainMenu.fxml");
+            } catch (IOException ioException) {
+                System.out.println("The file could not be loaded. @placeBet");
+            }
         }
     }
 
     @FXML
-    private Button constructBetButton(Button placeBetButton) {
+    private Button constructBetButton() {
         Button Bet = new Button("Bet");
+        Bet.setLayoutX(408);
+        Bet.setLayoutY(0);
+        Bet.setPrefWidth(220);
+        Bet.setPrefHeight(31);
         Bet.setOnAction(actionEvent -> {
             listViewMatches.setItems(currentBetPanes);
-            placeBetButton.setVisible(!placeBetButton.isVisible());
+            placeBetButton.setVisible(true);
         });
 
         return Bet;
@@ -85,7 +87,7 @@ public class BetMenuController extends SceneController {
 
     @FXML
     public void setBet(Match match, int betIndex, Label betLabel) {
-        Odd odd = new Odd(match.getOdd(betIndex).getOdd(), match.getTeam1(), match.getTeam2());
+        Odd odd = new Odd(match.getOdd(betIndex).getOdd(), match.getTeam1(), match.getTeam2(), betLabel.getText());
         Odd oddToRemove = null;
 
         for (Odd o : currentOdds) {
@@ -159,39 +161,119 @@ public class BetMenuController extends SceneController {
 
     @FXML
     private Pane constructPane(Match m) {
+        String unpickedColor = "#fc9803";
+        String pickedColor = "#1e9e71";
+
         Pane currentPane = new Pane();
         String teamsString = m.getTeam1() + " - " + m.getTeam2();
         Text teams = new Text(teamsString);
         teams.setLayoutY(25);
-        teams.maxWidth(100);
+        teams.setStyle(
+                "-fx-font: 24 arial;"
+        );
+
+        Button bet3 = new Button(String.valueOf(m.getOdd(2).getOdd()));
+        Button bet1 = new Button(String.valueOf(m.getOdd(0).getOdd()));
+        Button bet2 = new Button(String.valueOf(m.getOdd(1).getOdd()));
+
+
         Label odd1 = new Label("1");
         odd1.setLayoutY(0);
-        odd1.setLayoutX(515);
-        Button bet1 = new Button(String.valueOf(m.getOdd(0).getOdd()));
-        bet1.setOnAction(e -> setBet(m, 0, odd1));
-        bet1.setLayoutX(500);
-        bet1.setLayoutY(18);
-        /*bet1.setStyle(
-                "-fx-background-radius: 2.5em; "
-        );*/
-
-
+        odd1.setLayoutX(715);
         Label oddX = new Label("X");
         oddX.setLayoutY(0);
-        oddX.setLayoutX(615);
-        Button bet2 = new Button(String.valueOf(m.getOdd(1).getOdd()));
-        bet2.setOnAction(e -> setBet(m, 1, oddX));
-        bet2.setLayoutX(600);
-        bet2.setLayoutY(18);
-
+        oddX.setLayoutX(815);
         Label odd2 = new Label("2");
         odd2.setLayoutY(0);
-        odd2.setLayoutX(715);
-        Button bet3 = new Button(String.valueOf(m.getOdd(2).getOdd()));
-        bet3.setOnAction(e -> setBet(m, 2, odd2));
-        bet3.setLayoutX(700);
-        bet3.setLayoutY(18);
+        odd2.setLayoutX(915);
 
+
+        bet1.setLayoutX(700);
+        bet1.setLayoutY(15);
+
+        bet2.setLayoutX(800);
+        bet2.setLayoutY(15);
+
+        bet3.setLayoutX(900);
+        bet3.setLayoutY(15);
+
+        bet1.setOnAction(e -> {
+            bet1.setStyle(
+                    "-fx-background-color: #131441;"
+            );
+        });
+
+        bet1.setStyle(
+                "-fx-background-color: " + unpickedColor + ";" +
+                        "-fx-background-radius: 0;"
+        );
+        bet2.setStyle(
+                "-fx-background-color: " + unpickedColor + ";" +
+                        "-fx-background-radius: 0;"
+        );
+        bet3.setStyle(
+                "-fx-background-color: " + unpickedColor + ";" +
+                        "-fx-background-radius: 0;"
+        );
+
+        bet1.setOnAction(e -> {
+            setBet(m, 0, odd1);
+            if (bet1.getStyle().contains(unpickedColor))
+                bet1.setStyle(
+                        "-fx-background-color: " + pickedColor + ";"
+                );
+            else
+                bet1.setStyle(
+                        "-fx-background-color: " + unpickedColor + ";"
+                );
+            bet2.setStyle(
+                    "-fx-background-color: " + unpickedColor + ";"
+            );
+            bet3.setStyle(
+                    "-fx-background-color: " + unpickedColor + ";"
+            );
+        });
+        bet2.setOnAction(e -> {
+            setBet(m, 1, odd1);
+            if (bet2.getStyle().contains(unpickedColor))
+                bet2.setStyle(
+                        "-fx-background-color: " + pickedColor + ";"
+                );
+            else
+                bet2.setStyle(
+                        "-fx-background-color: " + unpickedColor + ";"
+                );
+            bet1.setStyle(
+                    "-fx-background-color: " + unpickedColor + ";"
+            );
+            bet3.setStyle(
+                    "-fx-background-color: " + unpickedColor + ";"
+            );
+        });
+        bet3.setOnAction(e -> {
+            setBet(m, 2, odd1);
+            if (bet3.getStyle().contains(unpickedColor))
+                bet3.setStyle(
+                        "-fx-background-color: " + pickedColor + ";"
+                );
+            else
+                bet3.setStyle(
+                        "-fx-background-color: " + unpickedColor + ";"
+                );
+            bet2.setStyle(
+                    "-fx-background-color: " + unpickedColor + ";"
+            );
+            bet1.setStyle(
+                    "-fx-background-color: " + unpickedColor + ";"
+            );
+        });
+
+
+        currentPane.setStyle(
+                "-fx-background-color: #03fce3;" +
+                        "-fx-background-radius: 0;"
+        );
+        currentPane.setPrefHeight(listView.getFixedCellSize());
         currentPane.getChildren().add(teams);
         currentPane.getChildren().add(bet1);
         currentPane.getChildren().add(bet2);
@@ -207,19 +289,19 @@ public class BetMenuController extends SceneController {
     private Button constructButton(ArrayList<League> leagues, League l) {
         Button button = new Button(l.getName());
         button.setPrefWidth(320);
-        button.setOnAction(actionEvent -> listViewMatches.setItems(allMatches.get(leagues.indexOf(l))));
+        button.setOnAction(actionEvent -> {
+            listViewMatches.setItems(allMatches.get(leagues.indexOf(l)));
+            placeBetButton.setVisible(false);
+        });
 
         return button;
     }
 
     @FXML
-    private void goBack(ActionEvent actionEvent)
-    {
-        try
-        {
+    private void goBack(ActionEvent actionEvent) {
+        try {
             changeScene(actionEvent, "/MainMenu.fxml");
-        }catch (IOException ioException)
-        {
+        } catch (IOException ioException) {
             System.out.println("The page could not be loaded! @goBack");
         }
     }

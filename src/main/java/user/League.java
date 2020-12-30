@@ -26,11 +26,17 @@ public class League {
             JSONArray odds = matches.getJSONObject(iter).getJSONArray("sites").getJSONObject(0).getJSONObject("odds").getJSONArray("h2h");
             ArrayList<Odd> currentOdds = new ArrayList<>();
             for (int i = 0; i < odds.length(); i++) {
-                Odd currentOdd = new Odd(Float.parseFloat(odds.get(i).toString()), team1, team2);
+                String oddType;
+                if (i == 0)
+                    oddType = "1";
+                else if (i == 1)
+                    oddType = "X";
+                else oddType = "2";
+                Odd currentOdd = new Odd(Float.parseFloat(odds.get(i).toString()), team1, team2, oddType);
                 currentOdds.add(currentOdd);
             }
             if (currentOdds.size() < 3) {
-                Odd nullOdd = new Odd(0.0f, team1, team2);
+                Odd nullOdd = new Odd(0.0f, team1, team2, "X");
             }
             Match curr = new Match(team1, team2, currentOdds, commenceTime);
             this.games.add(curr);

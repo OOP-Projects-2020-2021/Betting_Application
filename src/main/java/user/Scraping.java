@@ -12,7 +12,7 @@ public class Scraping {
     public void getLeaguesFromJson() {
         this.leagues = new ArrayList<>();
         JSONObject jsonLeagues = null;
-        String API_KEY = "d8af2a63662701e8669fbb12d790c87b";
+        String API_KEY = "04bcb58c7a109a6f7945016e3b26cbff";
 
         String url = "https://api.the-odds-api.com/v3/sports?apiKey=" + API_KEY;
         try {

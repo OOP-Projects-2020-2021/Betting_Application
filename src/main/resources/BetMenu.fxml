@@ -5,19 +5,16 @@
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="anchorPane" prefHeight="825.0" prefWidth="1550.0" xmlns="http://javafx.com/javafx/11.0.1"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.BetMenuController">
-    <ListView fx:id="listView" layoutY="1.0" prefHeight="811.0" prefWidth="331.0"
-              style="-fx-background-color: #e6ac55; -fx-border-radius: 100; -fx-fixed-cell-size: 50;">
+<AnchorPane fx:id="anchorPane" prefHeight="871.0" prefWidth="1550.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.BetMenuController">
+    <ListView fx:id="listView" layoutX="33.0" layoutY="50.0" prefHeight="750.0" prefWidth="367.0" style="-fx-background-color: #e6ac55; -fx-border-radius: 100; -fx-fixed-cell-size: 50;">
         <effect>
-            <DropShadow/>
+            <DropShadow />
         </effect>
     </ListView>
-    <ListView fx:id="listViewMatches" layoutX="333.0" layoutY="-2.0" prefHeight="813.0" prefWidth="1216.0"
-              style="-fx-background-color: gray; -fx-border-radius: 100; -fx-fixed-cell-size: 50;">
+    <ListView fx:id="listViewMatches" layoutX="405.0" layoutY="50.0" prefHeight="750.0" prefWidth="1111.0" style="-fx-background-color: gray; -fx-border-radius: 100; -fx-fixed-cell-size: 50;">
         <effect>
-            <DropShadow/>
+            <DropShadow />
         </effect>
     </ListView>
-    <Button layoutX="1458.0" layoutY="27.0" mnemonicParsing="false" onAction="#goBack" text="Back"/>
+    <Button layoutX="-2.0" mnemonicParsing="false" onAction="#goBack" prefHeight="31.0" prefWidth="220.0" style="-fx-background-radius: 0;" text="Back" />
 </AnchorPane>

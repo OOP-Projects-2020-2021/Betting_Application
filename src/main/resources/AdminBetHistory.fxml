@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane prefHeight="786.0" prefWidth="1550.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.BetHistoryController">
+<AnchorPane prefHeight="786.0" prefWidth="1550.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.AdminBetHistoryController">
    <children>
       <ListView fx:id="listView" prefHeight="802.0" prefWidth="287.0" style="-fx-background-color: purple;">
          <effect>

@@ -15,7 +15,7 @@ import user.Odd;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class BetHistoryController extends SceneController {
+public class AdminBetHistoryController extends SceneController {
 
     private final ObservableList<Pane> allBets = FXCollections.observableArrayList();
     private final ArrayList<ObservableList<Pane>> allBetsAsLists = new ArrayList<>();
@@ -28,11 +28,11 @@ public class BetHistoryController extends SceneController {
 
     @FXML
     private void initialize() {
-        for (Bet bet : currentUser.getBets()) {
+        for (Bet bet : controlledUser.getBets()) {
             Button betButton = new Button(String.valueOf(bet.getTotalOdd()));
             betButton.setLayoutX(10);
             betButton.setLayoutY(12);
-            betButton.setOnAction(e -> listViewOdds.setItems(allBetsAsLists.get(currentUser.getBets().indexOf(bet))));
+            betButton.setOnAction(e -> listViewOdds.setItems(allBetsAsLists.get(controlledUser.getBets().indexOf(bet))));
 
             Pane pane = new Pane();
             pane.getChildren().add(betButton);
@@ -72,7 +72,7 @@ public class BetHistoryController extends SceneController {
     @FXML
     private void goBack(ActionEvent actionEvent) {
         try {
-            changeScene(actionEvent, "/MainMenu.fxml");
+            changeScene(actionEvent, "/AdminMenu.fxml");
         } catch (IOException ioException) {
             System.out.println("The page could not be loaded! @goBack");
         }

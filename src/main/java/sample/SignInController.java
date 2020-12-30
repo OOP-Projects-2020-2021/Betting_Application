@@ -35,10 +35,18 @@ public class SignInController extends SceneController {
         } else {
             System.out.println("Congratulations! you've just signed in" + current.getName());
             currentUser = current;
-            try {
-                changeScene(actionEvent, "/BetMenu.fxml");
-            } catch (IOException ioException) {
-                System.out.println("IO exception while trying to changeScene");
+            if (!currentUser.isAdmin()) {
+                try {
+                    changeScene(actionEvent, "/MainMenu.fxml");
+                } catch (IOException ioException) {
+                    System.out.println("IO exception while trying to changeScene");
+                }
+            } else {
+                try {
+                    changeScene(actionEvent, "/AdminMenu.fxml");
+                } catch (IOException ioException) {
+                    System.out.println("IO exception while trying to changeScene");
+                }
             }
         }
     }

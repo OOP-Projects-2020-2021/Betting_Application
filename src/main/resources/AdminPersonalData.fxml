@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="705.0" prefWidth="1271.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.AdminPersonalDataController">
+   <children>
+      <Label fx:id="CNP" layoutX="371.0" layoutY="233.0" prefHeight="102.0" prefWidth="420.0" text="Label">
+         <font>
+            <Font size="41.0" />
+         </font>
+      </Label>
+      <Button layoutX="25.0" layoutY="19.0" mnemonicParsing="false" onAction="#goBack" text="Back" />
+   </children>
+</AnchorPane>

@@ -83,7 +83,7 @@ public class SignUpController extends SceneController {
             sqlConnection.insertUser(u);
             currentUser = u;
             try {
-                changeScene(actionEvent, "/BetMenu.fxml");
+                changeScene(actionEvent, "/MainMenu.fxml");
             } catch (IOException ioException) {
                 System.out.println("IO exception while trying to changeScene");
             }
