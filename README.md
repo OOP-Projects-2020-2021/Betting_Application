@@ -62,4 +62,6 @@ Here I posted some screenshots of the main scenes.
 ![image](https://github.com/OOP-Projects-2020-2021/Betting_Application/blob/master/res/adminMenu.png)
 
 # Further Development
-The next step in developing this application is to include a verification of the bets (in order to know which bet was won and which wasn't).
+
+- The next step in developing this application is to include a verification of the bets (in order to know which bet was won and which wasn't).
+- Show also the Group for every League and League for every Match in the History Pages.
