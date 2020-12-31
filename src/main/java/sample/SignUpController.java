@@ -33,6 +33,9 @@ public class SignUpController extends SceneController {
     private Label _nameError;
 
 
+    /**
+     * The function realizes the SignUp action
+     */
     @FXML
     private void SignUp() {
         this.initLabels();
@@ -93,6 +96,9 @@ public class SignUpController extends SceneController {
 
     }
 
+    /**
+     * The function initializes all the Labels with "" = empty
+     */
     @FXML
     private void initLabels() {
         this._usernameError.setText("");

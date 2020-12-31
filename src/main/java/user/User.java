@@ -45,28 +45,12 @@ public class User {
         return leagues;
     }
 
-    public void setLeagues(ArrayList<League> leagues) {
-        this.leagues = leagues;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public void setName(String name) {
         this.name = name;
     }
 
     public void setBalance(float balance) {
         this.balance = balance;
-    }
-
-    public void setAdmin(boolean admin) {
-        this.admin = admin;
     }
 
     public String getUsername() {

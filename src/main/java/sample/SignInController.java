@@ -21,6 +21,9 @@ public class SignInController extends SceneController {
     @FXML
     private Label _passwordError;
 
+    /**
+     * The function realizes the SignIn action
+     */
     @FXML
     private void SignIn(ActionEvent actionEvent) {
         _usernameError.setText("");

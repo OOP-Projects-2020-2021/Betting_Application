@@ -67,6 +67,9 @@ public class AdminBetHistoryController extends SceneController {
 
     }
 
+    /**
+     * @return - the ObservableList of Panes corresponding to the Bet bet
+     */
     @FXML
     private ObservableList<Pane> constructOsbList(Bet bet) {
         ObservableList<Pane> currObsList = FXCollections.observableArrayList();
@@ -81,8 +84,14 @@ public class AdminBetHistoryController extends SceneController {
             Label betL = new Label(odd.getOddType());
             Label oddL = new Label(String.valueOf(odd.getOdd()));
 
+            Text dateTime = new Text(odd.getDateTime());
+            dateTime.setLayoutY(40);
+            dateTime.setStyle(
+                    "-fx-font: 12 arial;"
+            );
+
             betL.setLayoutY(5);
-            betL.setLayoutX(500);
+            betL.setLayoutX(750);
             betL.setStyle(
                     "-fx-font: 24 arial;"
             );
@@ -98,6 +107,7 @@ public class AdminBetHistoryController extends SceneController {
                     "-fx-background-color: #948f8a;" +
                             "-fx-background-radius: 0;"
             );
+            auxPane.getChildren().add(dateTime);
             auxPane.getChildren().add(teams);
             auxPane.getChildren().add(betL);
             auxPane.getChildren().add(oddL);
@@ -106,6 +116,7 @@ public class AdminBetHistoryController extends SceneController {
 
         return currObsList;
     }
+
 
     @FXML
     private void goBack(ActionEvent actionEvent) {

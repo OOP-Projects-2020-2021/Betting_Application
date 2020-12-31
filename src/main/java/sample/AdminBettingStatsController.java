@@ -19,12 +19,12 @@ public class AdminBettingStatsController extends SceneController {
 
     @FXML
     private void initialize() {
-        Connection sqlConnection = null;
+        Connection sqlConnection;
         try {
             sqlConnection = DriverManager.getConnection(SQLConnection.getDatabaseUrl(), SQLConnection.getDatabaseUsername(), SQLConnection.getDatabasePassword());
 
             Statement stmtmDistinctOdds = sqlConnection.createStatement();
-            ResultSet distinctOdds = stmtmDistinctOdds.executeQuery("SELECT DISTINCT team1, team2, count(*) as nb FROM Odd GROUP BY team1, team2");
+            ResultSet distinctOdds = stmtmDistinctOdds.executeQuery("SELECT DISTINCT team1, team2, dateTime, count(*) as nb FROM Odd GROUP BY team1, team2, dateTime");
 
             ObservableList<Pane> allMatchesNbOfBets = FXCollections.observableArrayList();
             while (distinctOdds.next()) {
@@ -36,17 +36,27 @@ public class AdminBettingStatsController extends SceneController {
                         "-fx-font: 24 arial;"
                 );
 
+                Text dateTime = new Text(distinctOdds.getString("dateTime"));
+                dateTime.setLayoutY(40);
+                dateTime.setLayoutX(100);
+                dateTime.setStyle(
+                        "-fx-font: 12 arial;" +
+                                "-fx-background-color: #9e6303;"
+                );
+
                 Text numberOfBets = new Text(distinctOdds.getString("nb"));
                 numberOfBets.setLayoutY(25);
                 numberOfBets.setLayoutX(900);
                 numberOfBets.setStyle(
-                        "-fx-font: 24 arial;"
+                        "-fx-font: 24 arial;" +
+                                "-fx-background-color: #03fc90;"
                 );
 
                 Pane currentPane = new Pane();
                 currentPane.setStyle(
-                        "-fx-background-color: cyan;"
+                        "-fx-background-color: #9c9994;"
                 );
+                currentPane.getChildren().add(dateTime);
                 currentPane.getChildren().add(teams);
                 currentPane.getChildren().add(numberOfBets);
                 allMatchesNbOfBets.add(currentPane);

@@ -22,20 +22,6 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         launch(args);
-
-        /* Scraping scraping = new Scraping();
-
-        scraping.getLeaguesFromJson();
-        ArrayList<League> leagues = scraping.getLeagues();
-
-        for (League l : leagues) {
-            for (Match m : l.getGames()) {
-                System.out.println(m.getTeam1() + " " + m.getOdd(2).getOdd() + " " + m.getOdd(0).getTeam2() + " " + m.getDate() + " " + m.getTime());
-            }
-        }*/
-       /* JSONArray leagues = jsonObject.getJSONArray("data");
-        System.out.println(leagues.length());*/
-        //launch(args);
     }
 }
 

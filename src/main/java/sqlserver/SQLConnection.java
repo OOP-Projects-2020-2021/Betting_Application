@@ -18,6 +18,9 @@ public class SQLConnection {
         this.setUsers();
     }
 
+    /**
+     * The function inserts the User u in the UserX table from the Database
+     */
     public void insertUser(User u) {
         Connection sqlConnection = null;
         try {
@@ -45,6 +48,9 @@ public class SQLConnection {
         }
     }
 
+    /**
+     * @return the last id from the Bets table from the Database
+     */
     public int getBetsId(Connection conn) throws SQLException {
         String betsStmtString = "SELECT id FROM Bets";
         Statement betStmt = conn.createStatement();
@@ -58,6 +64,9 @@ public class SQLConnection {
         return id;
     }
 
+    /**
+     * @return the last id from the Odd table from the Database
+     */
     public int getOddId(Connection conn) throws SQLException {
         String betsStmtString = "SELECT id FROM Odd";
         Statement betStmt = conn.createStatement();
@@ -71,6 +80,9 @@ public class SQLConnection {
         return id;
     }
 
+    /**
+     * @return the last id from the MapBets table from the Database
+     */
     public int getMapId(Connection conn) throws SQLException {
         String betsStmtString = "SELECT id FROM MapBets";
         Statement betStmt = conn.createStatement();
@@ -83,6 +95,9 @@ public class SQLConnection {
         return id;
     }
 
+    /**
+     * The function updates the balance in the Database for the User user
+     */
     public void updateBalance(User user) {
         Connection sqlConnection = null;
         try {
@@ -106,6 +121,9 @@ public class SQLConnection {
         }
     }
 
+    /**
+     * The function inserts the Bet bet in the Bet table from the Database
+     */
     public void insertBet(Bet bet, User user) {
         Connection sqlConnection = null;
         try {
@@ -139,6 +157,9 @@ public class SQLConnection {
         }
     }
 
+    /**
+     * The function inserts all the Odds from the ArrayList in the Odd table from the Database
+     */
     public void insertOdds(ArrayList<Odd> odds, int betsId) {
         Connection sqlConnection = null;
         try {
@@ -148,12 +169,13 @@ public class SQLConnection {
                 int oddId = getOddId(sqlConnection) + 1;
                 if (oddId == 0)
                     oddId++;
-                PreparedStatement stmtOdd = sqlConnection.prepareStatement("insert into Odd values (?, ?, ?, ?, ?)");
+                PreparedStatement stmtOdd = sqlConnection.prepareStatement("insert into Odd values (?, ?, ?, ?, ?, ?)");
                 stmtOdd.setInt(1, oddId);
                 stmtOdd.setString(2, o.getTeam1());
                 stmtOdd.setString(3, o.getTeam2());
                 stmtOdd.setFloat(4, o.getOdd());
                 stmtOdd.setString(5, o.getOddType());
+                stmtOdd.setString(6, o.getDateTime());
                 stmtOdd.executeUpdate();
 
                 int mapId = getMapId(sqlConnection) + 1;
@@ -180,6 +202,9 @@ public class SQLConnection {
         }
     }
 
+    /**
+     * The function fetches all the Users from the UserX table from the Database
+     */
     public void setUsers() {
         ArrayList<User> users = new ArrayList<>();
         Connection sqlConnection = null;
@@ -220,6 +245,9 @@ public class SQLConnection {
         return users;
     }
 
+    /**
+     * The function fetches all the Bets from the Database with all the corresponding Odds
+     */
     private void setBets(Connection conn, ResultSet usersResult, ArrayList<Bet> bets) throws SQLException {
         String betsStmtString = "SELECT id, valuePlaced, totalOdd, totalWon, date, won FROM Bets WHERE userId = " + usersResult.getInt("id");
         Statement betStmt = conn.createStatement();
@@ -255,7 +283,7 @@ public class SQLConnection {
     }
 
     private void setOddsMapped(Connection conn, int betId, ArrayList<Odd> odds) throws SQLException {
-        String oddStmtString = "SELECT team1, team2, odd, oddType FROM Odd WHERE id = " + betId;
+        String oddStmtString = "SELECT team1, team2, odd, oddType, dateTime FROM Odd WHERE id = " + betId;
         Statement oddStmt = conn.createStatement();
         ResultSet oddStatement = oddStmt.executeQuery(oddStmtString);
 
@@ -264,7 +292,8 @@ public class SQLConnection {
             String team1 = oddStatement.getString("team1");
             String team2 = oddStatement.getString("team2");
             String oddType = oddStatement.getString("oddType");
-            Odd currOdd = new Odd(oddValue, team1, team2, oddType);
+            String dateTime = oddStatement.getString("dateTime");
+            Odd currOdd = new Odd(oddValue, team1, team2, oddType, dateTime);
 
             odds.add(currOdd);
         }

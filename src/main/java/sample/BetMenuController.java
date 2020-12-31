@@ -8,7 +8,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.skin.LabeledSkinBase;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
@@ -71,6 +70,9 @@ public class BetMenuController extends SceneController {
         return bd.floatValue();
     }
 
+    /**
+     * The function places a bet
+     */
     @FXML
     private void placeBet(ActionEvent actionEvent) {
         float betAmmountFloat = Float.parseFloat(betAmmount.getText());
@@ -92,6 +94,9 @@ public class BetMenuController extends SceneController {
         }
     }
 
+    /**
+     * @return the Button that shows the current Bet
+     */
     @FXML
     private Button constructBetButton() {
         Button Bet = new Button("Bet");
@@ -107,9 +112,12 @@ public class BetMenuController extends SceneController {
         return Bet;
     }
 
+    /**
+     * The function sets (adds) a new Bet to the current Bet & listView of Bets
+     */
     @FXML
     public void setBet(Match match, int betIndex, Label betLabel) {
-        Odd odd = new Odd(match.getOdd(betIndex).getOdd(), match.getTeam1(), match.getTeam2(), betLabel.getText());
+        Odd odd = new Odd(match.getOdd(betIndex).getOdd(), match.getTeam1(), match.getTeam2(), betLabel.getText(), match.getDateTime());
         Odd oddToRemove = null;
 
         for (Odd o : currentOdds) {
@@ -156,7 +164,7 @@ public class BetMenuController extends SceneController {
         Label oddL = new Label(String.valueOf(odd.getOdd()));
 
         betL.setLayoutY(5);
-        betL.setLayoutX(500);
+        betL.setLayoutX(750);
         betL.setStyle(
                 "-fx-font: 24 arial;"
         );
@@ -181,6 +189,9 @@ public class BetMenuController extends SceneController {
         currentBetTotalOdd *= odd.getOdd();
     }
 
+    /**
+     * The function construct the whole Scene
+     */
     @FXML
     private void constructScene(ArrayList<League> leagues) {
         for (League l : leagues) {
@@ -198,6 +209,9 @@ public class BetMenuController extends SceneController {
         }
     }
 
+    /**
+     * @return a Pane that corresponds to the Match m
+     */
     @FXML
     private Pane constructPane(Match m) {
         String unpickedColor = "#fc9803";
@@ -209,6 +223,12 @@ public class BetMenuController extends SceneController {
         teams.setLayoutY(25);
         teams.setStyle(
                 "-fx-font: 24 arial;"
+        );
+
+        Text dateAndTime = new Text(m.getDateTime());
+        dateAndTime.setLayoutY(40);
+        dateAndTime.setStyle(
+                "-fx-font: 12 arial;"
         );
 
         Button bet3 = new Button(String.valueOf(m.getOdd(1).getOdd()));
@@ -252,11 +272,9 @@ public class BetMenuController extends SceneController {
         bet3.setPrefHeight(30);
         bet3.setPrefWidth(100);
 
-        bet1.setOnAction(e -> {
-            bet1.setStyle(
-                    "-fx-background-color: #131441;"
-            );
-        });
+        bet1.setOnAction(e -> bet1.setStyle(
+                "-fx-background-color: #131441;"
+        ));
 
         bet1.setStyle(
                 "-fx-background-color: " + unpickedColor + ";" +
@@ -329,6 +347,7 @@ public class BetMenuController extends SceneController {
                         "-fx-background-radius: 0;"
         );
         currentPane.setPrefHeight(listView.getFixedCellSize());
+        currentPane.getChildren().add(dateAndTime);
         currentPane.getChildren().add(teams);
         currentPane.getChildren().add(bet1);
         currentPane.getChildren().add(bet2);
@@ -340,6 +359,9 @@ public class BetMenuController extends SceneController {
         return currentPane;
     }
 
+    /**
+     * @return a Button that has all the matches&odds of the current League l
+     */
     @FXML
     private Button constructButton(ArrayList<League> leagues, League l) {
         Button button = new Button(l.getName());

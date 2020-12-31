@@ -9,6 +9,9 @@ import java.util.ArrayList;
 public class Scraping {
     private ArrayList<League> leagues;
 
+    /**
+     * The function fetches all the Leagues with the corresponding Matches and Odds from the JSON file provided by the API.
+     */
     public void getLeaguesFromJson() {
         this.leagues = new ArrayList<>();
         JSONObject jsonLeagues = null;

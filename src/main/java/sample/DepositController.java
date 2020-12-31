@@ -46,6 +46,9 @@ public class DepositController extends SceneController {
         _CCVError.setText("");
     }
 
+    /**
+     * The function makes a deposit for the currentUser
+     */
     @FXML
     private void deposit() {
 
@@ -59,8 +62,8 @@ public class DepositController extends SceneController {
             _expireDateError.setText("Expire date is incorrect!");
         } else if (!_CCV.getText().matches("[0-9]+") || _CCV.getText().length() != 3) {
             _CCVError.setText("The CCV is incorrect!");
-        } else if (!_ammount.getText().matches("[-+]?[0-9]*\\.?[0-9]+")) {
-            _ammountError.setText("Ammount is incorrect!");
+        } else if (!_ammount.getText().matches("[-+]?[0-9]*\\.?[0-9]+") || Integer.parseInt(_ammount.getText()) > 100) {
+            _ammountError.setText("Ammount is incorrect! Max Ammount is 100");
         } else {
             currentUser.setBalance(currentUser.getBalance() + Float.parseFloat(_ammount.getText()));
             sqlConnection.updateBalance(currentUser);

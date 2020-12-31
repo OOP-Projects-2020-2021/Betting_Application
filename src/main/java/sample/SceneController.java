@@ -31,6 +31,9 @@ public class SceneController {
         }
     }
 
+    /**
+     * The Function changes the currentScene to the Scene from fxmlFilePath
+     */
     public void changeScene(ActionEvent actionEvent, String fxmlFilePath) throws IOException {
         Parent parent = FXMLLoader.load(getClass().getResource(fxmlFilePath));
         if (scene == null) {
