@@ -13,7 +13,7 @@ sql
 jdbc
 javafx
 ```
-It makes use of a free, online [API](https://the-odds-api.com/) by fetching all the necessary data its JSON files. The fetch is done using an _HTTP Request_ that is later converted into usable data. 
+It makes use of a free, online [API](https://the-odds-api.com/) by fetching all the necessary data from its JSON files. The fetch is done using an _HTTP Request_ that is later converted into usable data. 
 
 All the user's data: **personal information**, **placed bets** and the corresponding **odds** are stored in an `SQLServer Database` which is accessed through an _SQL Connection_ realized by the [jdbc API](https://en.wikipedia.org/wiki/Java_Database_Connectivity) and all the updates to the `Database` is done using the same kind of _Connection_. The data is always fetched again in this way so that the **User** can see its record on the app.
 
